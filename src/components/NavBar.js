@@ -3,7 +3,9 @@ import { Navbar, Container, Nav } from "react-bootstrap";
 import logoo from "../assets/logoo.png";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
-import { useCurrentUser } from "../contexts/CurrentUserContext";
+import { useCurrentUser} from "../contexts/CurrentUserContext";
+import Avatar from "./Avatar";
+
 
 
 
@@ -11,17 +13,53 @@ import { useCurrentUser } from "../contexts/CurrentUserContext";
 
 const NavBar = () => {
     const currentUser = useCurrentUser();
+
+    const addTaskIcon = (
+        <NavLink
+          className={styles.NavLink}
+          activeClassName={styles.Active}
+          to="/tasks/create"
+        >
+          <i className="far fa-plus-square"></i>Add Task
+        </NavLink>
+      );
+
     const loggedInIcons =(
         <>
-          <NavLink
-            exact
-            className={styles.NavLink}
-            activeClassName={styles.Active}
-            to="/"
+          
+           
+           
+            <NavLink
+                className={styles.NavLink}
+                activeClassName={styles.Active}
+                to="/tasks"
             >
-            <i className="fas fa-home"></i>Home
-          </NavLink>
-          {currentUser?.username} 
+                <i className="fas fa-stream"></i>Task
+            </NavLink>
+            <NavLink
+                className={styles.NavLink}
+                activeClassName={styles.Active}
+                to="/categories"
+            >
+                <i className="fas fa-heart"></i>Categories
+            </NavLink>
+            <NavLink
+                className={styles.NavLink}
+                activeClassName={styles.Active}
+                to="/Dashboard"
+            >
+                <i className="fas fa-stream"></i>Dashboard
+            </NavLink>
+
+            <NavLink className={styles.NavLink} to="/" >
+                <i className="fas fa-sign-out-alt"></i>Sign out
+            </NavLink>
+            <NavLink
+                className={styles.NavLink}
+                to={`/profiles/${currentUser?.profile_id}`}
+            >
+                <Avatar src={currentUser?.profile_image} text="Profile" height={40} />
+            </NavLink>
         
         </>
         );
@@ -52,11 +90,22 @@ const NavBar = () => {
                     <img src={logoo} alt="logo" height="35" /> Do It.
                 </Navbar.Brand>
             </NavLink>
+            {currentUser && addTaskIcon}
+
 
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto text-left">
+                    <NavLink
+                        exact
+                        className={styles.NavLink}
+                        activeClassName={styles.Active}
+                        to="/"
+                        >
+                        <i className="fas fa-home"></i>how we work?
+                    </NavLink>
                     
+                        
                     {currentUser ? loggedInIcons : loggedOutIcons}
                         
                 </Nav>
